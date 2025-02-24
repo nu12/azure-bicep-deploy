@@ -1,0 +1,50 @@
+name: Deploy Bicep
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Azure login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.CREDS }}
+
+    - name: Validate
+      uses: azure/bicep-deploy@v2
+      with:
+        type: deployment
+        operation: validate
+        name: Development
+        scope: resourceGroup
+        resource-group-name: azure
+        subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+        template-file: ./main.bicep
+        parameters-file: ./params.json
+    - name: WhatIf
+      uses: azure/bicep-deploy@v2
+      with:
+        type: deployment
+        operation: whatIf
+        name: Development
+        scope: resourceGroup
+        resource-group-name: azure
+        subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+        template-file: ./main.bicep
+        parameters-file: ./params.json
+    - name: Create
+      uses: azure/bicep-deploy@v2
+      with:
+        type: deployment
+        operation: create
+        name: Development
+        scope: resourceGroup
+        resource-group-name: azure
+        subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+        template-file: ./main.bicep
+        parameters-file: ./params.json
