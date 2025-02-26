@@ -16,7 +16,7 @@ jobs:
         creds: ${{ secrets.CREDS }}
 
     - name: Validate
-      uses: azure/bicep-deploy@v2
+      uses: azure/bicep-deploy@main
       with:
         type: deployment
         operation: validate
@@ -27,7 +27,7 @@ jobs:
         template-file: ./main.bicep
         parameters-file: ./params.json
     - name: WhatIf
-      uses: azure/bicep-deploy@v2
+      uses: azure/bicep-deploy@main
       with:
         type: deployment
         operation: whatIf
@@ -38,7 +38,7 @@ jobs:
         template-file: ./main.bicep
         parameters-file: ./params.json
     - name: Create
-      uses: azure/bicep-deploy@v2
+      uses: azure/bicep-deploy@main
       with:
         type: deployment
         operation: create
